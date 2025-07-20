@@ -38,27 +38,29 @@ public:
 		current = 0;
 	}
 
-	void push_back(const T& value) {
+	// pos位置にvalueを挿入
+	void insert(size_t pos, const T& value) {
+		auto currentData = getCurrent();
+		auto it = currentData.begin();
+		advance(it, min(pos, currentData.size()));
+		currentData.insert(it, value);
+		save(currentData);
+	}
+
+	// pos位置の要素を削除
+	void erase(size_t pos) {
+		auto currentData = getCurrent();
+		if (pos >= currentData.size()) return;
+		auto it = currentData.begin();
+		advance(it, pos);
+		currentData.erase(it);
+		save(currentData);
+	}
+
+	// 末尾に追加（pop_backの代わりに新設）
+	void append(const T& value) {
 		auto currentData = getCurrent();
 		currentData.push_back(value);
-		save(currentData);
-	}
-
-	void push_front(const T& value) {
-		auto currentData = getCurrent();
-		currentData.push_front(value);
-		save(currentData);
-	}
-
-	void pop_back() {
-		auto currentData = getCurrent();
-		if (!currentData.empty()) currentData.pop_back();
-		save(currentData);
-	}
-
-	void pop_front() {
-		auto currentData = getCurrent();
-		if (!currentData.empty()) currentData.pop_front();
 		save(currentData);
 	}
 
@@ -97,10 +99,10 @@ private:
 
 int main() {
 	ReversibleList<int> lst;
-	lst.push_back(10);
-	lst.push_front(1);
-	lst.push_back(20);
-	lst.pop_front();
+	lst.append(10);         // 末尾に追加
+	lst.insert(0, 1);       // 先頭に1を挿入
+	lst.append(20);         // 末尾に追加
+	lst.erase(0);           // 先頭を削除
 	cout << "show history:\n";
 	int i = 0;
 	for (const auto& state : lst) {
@@ -109,7 +111,7 @@ int main() {
 		cout << '\n';
 	}
 	lst.undo();
-	lst.push_front(99);
+	lst.insert(0, 99);
 
 	cout << "show history:\n";
 	int j = 0;
@@ -129,4 +131,4 @@ int main() {
 
 	cout << "私が書きました" << endl;
 }
-#s
+			
