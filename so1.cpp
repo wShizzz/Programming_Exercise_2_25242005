@@ -99,36 +99,53 @@ private:
 
 int main() {
 	ReversibleList<int> lst;
-	lst.append(10);         // 末尾に追加
-	lst.insert(0, 1);       // 先頭に1を挿入
-	lst.append(20);         // 末尾に追加
-	lst.erase(0);           // 先頭を削除
-	cout << "show history:\n";
-	int i = 0;
-	for (const auto& state : lst) {
-		cout << "Step " << i++ << ":";
-		for (int v : state) cout << ' ' << v;
-		cout << '\n';
+	char cmd;
+	cout << "コマンド: i(incert), e(erase), a(append), s(show history), u(undo), r(redo), q(quit)\n";
+	while (true) {
+		cout << "> ";
+		cin >> cmd;
+		if (cmd == 'q') break;
+		if (cmd == 'i') {
+			size_t pos;
+			int val;
+			cout << "insert位置: ";
+			cin >> pos;
+			cout << "値: ";
+			cin >> val;
+			lst.insert(pos, val);
+		}
+		else if (cmd == 'e') {
+			size_t pos;
+			cout << "erase位置: ";
+			cin >> pos;
+			lst.erase(pos);
+		}
+		else if (cmd == 'a') {
+			int val;
+			cout << "append値: ";
+			cin >> val;
+			lst.append(val);
+		}
+		else if (cmd == 's') {
+			int i = 0;
+			cout << "show history:\n";
+			for (const auto& state : lst) {
+				cout << "Step " << i++ << ": ";
+				for (int v : state) cout << ' ' << v;
+				cout << '\n';
+			}
+		}
+		else if (cmd == 'u') {
+			lst.undo();
+			cout << "undo\n";
+		}
+		else if (cmd == 'r') {
+			lst.redo();
+			cout << "redo\n";
+		}
+		else {
+			cout << "不明なコマンドです\n";
+		}
 	}
-	lst.undo();
-	lst.insert(0, 99);
-
-	cout << "show history:\n";
-	int j = 0;
-	for (const auto& state : lst) {
-		cout << "Step " << j++ << ":";
-		for (int v : state) cout << ' ' << v;
-		cout << '\n';
-	}
-
-	cout << "current 2nd element: " << lst.get(1) << '\n';
-	try {
-		cout << "current 5th element: " << lst.get(5) << '\n';
-	}
-	catch (const out_of_range& e) {
-		cout << "exception: " << e.what() << '\n';
-	}
-
-	cout << "私が書きました" << endl;
+	cout << "終了します\n";
 }
-			
