@@ -8,15 +8,183 @@ using namespace std;
 // ‘€ì—š—ğ‚à‹L˜^‚·‚é‰Â‹tƒŠƒXƒg
 template <typename T>
 class ReversibleList {
-	struct HistoryState {
-		list<T> data;
-		string op; // ‘€ì–¼
-	};
-	vector<HistoryState> history;
-	int current = 0;
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
+
+    struct HistoryState {
+        list<T> data;
+        string op; // ‘€ì–¼
+    };
+    vector<HistoryState> history;
+    int current = 0;
 
 public:
-	class Iterator {
+		class Iterator {
 		const vector<HistoryState>* history;
 		int idx;
 
