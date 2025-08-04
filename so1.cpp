@@ -3,6 +3,7 @@
 #include <vector>
 #include <limits>
 #include <string>
+#include <sstream>
 using namespace std;
 
 // 可逆リスト
@@ -109,11 +110,43 @@ private:
 int main() {
     ReversibleList<int> lst;
     char cmd;
-    cout << "コマンド: i(incert), e(erase), a(append), s(show history), c(current), u(undo), r(redo), q(quit), \n";
+    cout << "コマンド: i(incert), e(erase), a(append), s(show history), c(current), u(undo), r(redo), q(quit)\n";
+    cout << "ショートカットコマンド: a20, e3, i1,7 \n";
     while (true) {
         try {
             cout << "> ";
-            cin >> cmd;
+            string line;
+            getline(cin, line);
+            if (line.empty()) continue;
+
+            // ショートカットコマンド判定
+            if ((line[0] == 'a' || line[0] == 'e' || line[0] == 'i') && line.size() > 1) {
+                if (line[0] == 'a') {
+                    int val = stoi(line.substr(1));
+                    lst.append(val);
+                    cout << "append " << val << '\n';
+                } else if (line[0] == 'e') {
+                    size_t pos = static_cast<size_t>(stoul(line.substr(1)));
+                    lst.erase(pos);
+                    cout << "erase " << pos << '\n';
+                } else if (line[0] == 'i') {
+                    // 例: i3,10 → 3番目に10をinsert
+                    size_t comma = line.find(',');
+                    if (comma == string::npos) {
+                        cout << "i<pos>,<val> の形式で入力してください\n";
+                    } else {
+                        size_t pos = static_cast<size_t>(stoul(line.substr(1, comma - 1)));
+                        int val = stoi(line.substr(comma + 1));
+                        lst.insert(pos, val);
+                        cout << "insert " << val << " at " << pos << '\n';
+                    }
+                }
+                continue;
+            }
+
+            // 既存のコマンド入力
+            istringstream iss(line);
+            iss >> cmd;
             if (cmd == 'q') break;
             if (cmd == 'i') {
                 size_t pos;
