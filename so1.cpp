@@ -6,7 +6,6 @@
 #include <sstream>
 using namespace std;
 
-// 可逆リスト
 template <typename T>
 class ReversibleList {
     struct HistoryState {
@@ -68,11 +67,14 @@ public:
         save(currentData);
     }
 
+    // 戻る
     void undo() {
         if (current > 0) {
             --current;
         }
     }
+
+	// 進む
     void redo() {
         if (current + 1 < (int)history.size()) {
             ++current;
@@ -111,92 +113,95 @@ int main() {
     ReversibleList<int> lst;
     char cmd;
     cout << "コマンド: i(incert), e(erase), a(append), s(show history), c(current), u(undo), r(redo), q(quit)\n";
-    cout << "ショートカットコマンド: a20, e3, i1,7 \n";
-    while (true) {
-        try {
-            cout << "> ";
-            string line;
-            getline(cin, line);
-            if (line.empty()) continue;
+    cout << "ショートカットコマンド: a20, e3, i1 7 \n";
+    try {
+            while(true) {
+                cout << "> ";
+                string line;
+                getline(cin, line);
+                if (line.empty()) continue;
 
-            // ショートカットコマンド判定
-            if ((line[0] == 'a' || line[0] == 'e' || line[0] == 'i') && line.size() > 1) {
-                if (line[0] == 'a') {
-                    int val = stoi(line.substr(1));
-                    lst.append(val);
-                    cout << "append " << val << '\n';
-                } else if (line[0] == 'e') {
-                    size_t pos = static_cast<size_t>(stoul(line.substr(1)));
+                // ショートカットコマンド判定
+                if ((line[0] == 'a' || line[0] == 'e' || line[0] == 'i') && line.size() > 1) {
+                    if (line[0] == 'a') {
+                        int val = stoi(line.substr(1));
+                        lst.append(val);
+                        cout << "append " << val << '\n';
+                    }
+                    else if (line[0] == 'e') {
+                        size_t pos = static_cast<size_t>(stoul(line.substr(1)));
+                        lst.erase(pos);
+                        cout << "erase " << pos << '\n';
+                    }
+                    else if (line[0] == 'i') {
+                        size_t comma = line.find(' ');
+                        if (comma == string::npos) {
+                            cout << "i<pos>space<val> の形式で入力してください\n";
+                        }
+                        else {
+                            size_t pos = static_cast<size_t>(stoul(line.substr(1, comma - 1)));
+                            int val = stoi(line.substr(comma + 1));
+                            lst.insert(pos, val);
+                            cout << "insert " << val << " at " << pos << '\n';
+                        }
+                    }
+                    continue;
+                }
+
+                // 既存のコマンド入力
+                istringstream iss(line);
+                iss >> cmd;
+                if (cmd == 'q') break;
+                if (cmd == 'i') {
+                    size_t pos;
+                    int val;
+                    cout << "insert位置: ";
+                    if (!(cin >> pos)) throw runtime_error("insert位置の入力が不正です");
+                    cout << "値: ";
+                    if (!(cin >> val)) throw runtime_error("値の入力が不正です");
+                    lst.insert(pos, val);
+                }
+                else if (cmd == 'e') {
+                    size_t pos;
+                    cout << "erase位置: ";
+                    if (!(cin >> pos)) throw runtime_error("erase位置の入力が不正です");
                     lst.erase(pos);
-                    cout << "erase " << pos << '\n';
-                } else if (line[0] == 'i') {
-                    // 例: i3,10 → 3番目に10をinsert
-                    size_t comma = line.find(',');
-                    if (comma == string::npos) {
-                        cout << "i<pos>,<val> の形式で入力してください\n";
-                    } else {
-                        size_t pos = static_cast<size_t>(stoul(line.substr(1, comma - 1)));
-                        int val = stoi(line.substr(comma + 1));
-                        lst.insert(pos, val);
-                        cout << "insert " << val << " at " << pos << '\n';
+                }
+                else if (cmd == 'a') {
+                    int val;
+                    cout << "append値: ";
+                    if (!(cin >> val)) throw runtime_error("append値の入力が不正です");
+                    lst.append(val);
+                }
+                else if (cmd == 's') {
+                    int i = 0;
+                    cout << "show history:\n";
+                    for (const auto& state : lst) {
+                        cout << "Step " << i++ << ": ";
+                        for (int v : state.data) cout << ' ' << v;
+                        cout << '\n';
                     }
                 }
-                continue;
-            }
-
-            // 既存のコマンド入力
-            istringstream iss(line);
-            iss >> cmd;
-            if (cmd == 'q') break;
-            if (cmd == 'i') {
-                size_t pos;
-                int val;
-                cout << "insert位置: ";
-                if (!(cin >> pos)) throw runtime_error("insert位置の入力が不正です");
-                cout << "値: ";
-                if (!(cin >> val)) throw runtime_error("値の入力が不正です");
-                lst.insert(pos, val);
-            }
-            else if (cmd == 'e') {
-                size_t pos;
-                cout << "erase位置: ";
-                if (!(cin >> pos)) throw runtime_error("erase位置の入力が不正です");
-                lst.erase(pos);
-            }
-            else if (cmd == 'a') {
-                int val;
-                cout << "append値: ";
-                if (!(cin >> val)) throw runtime_error("append値の入力が不正です");
-                lst.append(val);
-            }
-            else if (cmd == 's') {
-                int i = 0;
-                cout << "show history:\n";
-                for (const auto& state : lst) {
-                    cout << "Step " << i++ << ": ";
-                    for (int v : state.data) cout << ' ' << v;
+                else if (cmd == 'c') {
+                    cout << "current state: ";
+                    auto current = lst.getCurrent();
+                    for (int v : current) cout << v << ' ';
                     cout << '\n';
                 }
+                else if (cmd == 'u') {
+                    lst.undo();
+                    cout << "undo\n";
+                }
+                else if (cmd == 'r') {
+                    lst.redo();
+                    cout << "redo\n";
+                }
+                else {
+                    cout << "不明なコマンドです\n";
+                }
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
-            else if (cmd == 'c') {
-                cout << "current state: ";
-                auto current = lst.getCurrent();
-                for (int v : current) cout << v << ' ';
-                cout << '\n';
-            }
-            else if (cmd == 'u') {
-                lst.undo();
-                cout << "undo\n";	
-            }
-            else if (cmd == 'r') {
-                lst.redo();
-                cout << "redo\n";
-            }
-            else {
-                cout << "不明なコマンドです\n";
-            }
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         catch (const out_of_range& e) {
             cout << "範囲外アクセス例外: " << e.what() << '\n';
@@ -207,7 +212,7 @@ int main() {
             cout << "例外: " << e.what() << '\n';
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        }
     }
+   
     cout << "終了します\n";
 }
