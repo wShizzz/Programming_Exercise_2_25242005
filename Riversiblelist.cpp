@@ -41,7 +41,7 @@ public:
         current = 0;
     }
 
-    // posˆÊ’u‚Évalue‚ğ‘}“ü
+    // posä½ç½®ã«valueã‚’æŒ¿å…¥
     void insert(size_t pos, const T& value) {
         auto currentData = getCurrent();
         auto it = currentData.begin();
@@ -50,7 +50,7 @@ public:
         save(currentData);
     }
 
-    // posˆÊ’u‚Ì—v‘f‚ğíœ
+    // posä½ç½®ã®è¦ç´ ã‚’å‰Šé™¤
     void erase(size_t pos) {
         auto currentData = getCurrent();
         if (pos >= currentData.size()) return;
@@ -60,26 +60,26 @@ public:
         save(currentData);
     }
 
-    // ––”ö‚É’Ç‰Á
+    // æœ«å°¾ã«è¿½åŠ 
     void append(const T& value) {
         auto currentData = getCurrent();
         currentData.push_back(value);
         save(currentData);
     }
 
-    // –ß‚é
+    // æˆ»ã‚‹
     void undo() {
         if (current > 0) {
             --current;
         }
     }
 
-	// i‚Ş
+	// é€²ã‚€
     void redo() {
         if (current + 1 < (int)history.size()) {
             ++current;
         } else {
-            throw runtime_error("redo‚Å‚«‚Ü‚¹‚ñi‚±‚êˆÈãi‚ß‚Ü‚¹‚ñj");
+            throw runtime_error("redoã§ãã¾ã›ã‚“ï¼ˆã“ã‚Œä»¥ä¸Šé€²ã‚ã¾ã›ã‚“ï¼‰");
         }
     }
 
@@ -112,8 +112,8 @@ private:
 int main() {
     ReversibleList<int> lst;
     char cmd;
-    cout << "ƒRƒ}ƒ“ƒh: i(incert), e(erase), a(append), s(show history), c(current), u(undo), r(redo), q(quit)\n";
-    cout << "ƒVƒ‡[ƒgƒJƒbƒgƒRƒ}ƒ“ƒh: a20, e3, i1 7 \n";
+    cout << "ã‚³ãƒãƒ³ãƒ‰: i(incert), e(erase), a(append), s(show history), c(current), u(undo), r(redo), q(quit)\n";
+    cout << "ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚³ãƒãƒ³ãƒ‰: a20, e3, i1 7 \n";
     try {
             while(true) {
                 cout << "> ";
@@ -121,7 +121,7 @@ int main() {
                 getline(cin, line);
                 if (line.empty()) continue;
 
-                // ƒVƒ‡[ƒgƒJƒbƒgƒRƒ}ƒ“ƒh”»’è
+                // ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆã‚³ãƒãƒ³ãƒ‰åˆ¤å®š
                 if ((line[0] == 'a' || line[0] == 'e' || line[0] == 'i') && line.size() > 1) {
                     if (line[0] == 'a') {
                         int val = stoi(line.substr(1));
@@ -136,7 +136,7 @@ int main() {
                     else if (line[0] == 'i') {
                         size_t comma = line.find(' ');
                         if (comma == string::npos) {
-                            cout << "i<pos>space<val> ‚ÌŒ`®‚Å“ü—Í‚µ‚Ä‚­‚¾‚³‚¢\n";
+                            cout << "i<pos>space<val> ã®å½¢å¼ã§å…¥åŠ›ã—ã¦ãã ã•ã„\n";
                         }
                         else {
                             size_t pos = static_cast<size_t>(stoul(line.substr(1, comma - 1)));
@@ -148,29 +148,29 @@ int main() {
                     continue;
                 }
 
-                // Šù‘¶‚ÌƒRƒ}ƒ“ƒh“ü—Í
+                // æ—¢å­˜ã®ã‚³ãƒãƒ³ãƒ‰å…¥åŠ›
                 istringstream iss(line);
                 iss >> cmd;
                 if (cmd == 'q') break;
                 if (cmd == 'i') {
                     size_t pos;
                     int val;
-                    cout << "insertˆÊ’u: ";
-                    if (!(cin >> pos)) throw runtime_error("insertˆÊ’u‚Ì“ü—Í‚ª•s³‚Å‚·");
-                    cout << "’l: ";
-                    if (!(cin >> val)) throw runtime_error("’l‚Ì“ü—Í‚ª•s³‚Å‚·");
+                    cout << "insertä½ç½®: ";
+                    if (!(cin >> pos)) throw runtime_error("insertä½ç½®ã®å…¥åŠ›ãŒä¸æ­£ã§ã™");
+                    cout << "å€¤: ";
+                    if (!(cin >> val)) throw runtime_error("å€¤ã®å…¥åŠ›ãŒä¸æ­£ã§ã™");
                     lst.insert(pos, val);
                 }
                 else if (cmd == 'e') {
                     size_t pos;
-                    cout << "eraseˆÊ’u: ";
-                    if (!(cin >> pos)) throw runtime_error("eraseˆÊ’u‚Ì“ü—Í‚ª•s³‚Å‚·");
+                    cout << "eraseä½ç½®: ";
+                    if (!(cin >> pos)) throw runtime_error("eraseä½ç½®ã®å…¥åŠ›ãŒä¸æ­£ã§ã™");
                     lst.erase(pos);
                 }
                 else if (cmd == 'a') {
                     int val;
-                    cout << "append’l: ";
-                    if (!(cin >> val)) throw runtime_error("append’l‚Ì“ü—Í‚ª•s³‚Å‚·");
+                    cout << "appendå€¤: ";
+                    if (!(cin >> val)) throw runtime_error("appendå€¤ã®å…¥åŠ›ãŒä¸æ­£ã§ã™");
                     lst.append(val);
                 }
                 else if (cmd == 's') {
@@ -197,22 +197,22 @@ int main() {
                     cout << "redo\n";
                 }
                 else {
-                    cout << "•s–¾‚ÈƒRƒ}ƒ“ƒh‚Å‚·\n";
+                    cout << "ä¸æ˜ãªã‚³ãƒãƒ³ãƒ‰ã§ã™\n";
                 }
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
         }
         catch (const out_of_range& e) {
-            cout << "”ÍˆÍŠOƒAƒNƒZƒX—áŠO: " << e.what() << '\n';
+            cout << "ç¯„å›²å¤–ã‚¢ã‚¯ã‚»ã‚¹ä¾‹å¤–: " << e.what() << '\n';
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
         catch (const exception& e) {
-            cout << "—áŠO: " << e.what() << '\n';
+            cout << "ä¾‹å¤–: " << e.what() << '\n';
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
    
-    cout << "I—¹‚µ‚Ü‚·\n";
+    cout << "çµ‚äº†ã—ã¾ã™\n";
 }
